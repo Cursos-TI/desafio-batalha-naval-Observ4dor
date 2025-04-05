@@ -3,25 +3,106 @@
 // Desafio Batalha Naval - MateCheck
 // Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
 // Siga os comentários para implementar cada parte do desafio.
+#include <stdio.h>
 
-int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
-    char linha[10] = {'A','B','C','D','E','F','G','H','I','J'};
+#define TAMANHO_TABULEIRO 10
     
-    int tabuleiro[10][10] = {0} ;
+void exibirTabuleiro(int tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO]){
+    printf("  ");
+    for (int i = 0; i < TAMANHO_TABULEIRO; i++)
+    {
+        printf("%d ", i);
+    }
+    printf("\n");
+
+    for (int i = 0; i < TAMANHO_TABULEIRO; i++)
+    {
+        printf("%d ", i);
+        for (int j = 0; j < TAMANHO_TABULEIRO; j++)
+        {
+            printf("%d ", tabuleiro[i][j]);
+        }
+        printf("\n");
+    }
+    
+}
+//Função para criar Habilidade Cone
+void aplicarCone(int tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO],int x, int y){
+    int desenho[3][5]= {
+        {0, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0},
+        {1, 1, 1, 1, 1}
+    };
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            int novo_X = x + i - 1;
+            int novo_Y = y + j - 2;
+            tabuleiro[novo_X][novo_Y] = desenho[i][j];
+        }        
+    }    
+}
+ //Função para criar Habilidade Cruz   
+void aplicarCruz(int tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO],int x, int y){
+    int desenho[3][5] = {
+        {0, 0, 1, 0, 0},
+        {1, 1, 1, 1, 1},
+        {0, 0, 1, 0, 0}
+    };
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            int novo_X = x + i - 1;
+            int novo_Y = y + j - 2;
+            tabuleiro[novo_X][novo_Y] = desenho[i][j];
+        }        
+    }    
+}
+
+//Função para criar Habilidade Octaedro
+void aplicarOctaedro(int tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO], int x, int y){
+    int desenho[3][3] = {
+        {0, 1, 0,},
+        {1, 1, 1,},
+        {0, 1, 0}
+    };
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            int novo_X = x + i - 1;
+            int novo_Y = y + j - 2;
+            tabuleiro[novo_X][novo_Y] = desenho[i][j];
+        }        
+    }    
+}
+
+int main(){
+    char linha[10] = {'A','B','C','D','E','F','G','H','I','J'};//cabeçalho de letras
+    
+    int tabuleiro[10][10] = {0}; // tabuleiro inicia com 0
 
     //Navio na horizontal
-    tabuleiro[1][1] = 3;
-    tabuleiro[1][2] = 3;
-    tabuleiro[1][3] = 3;
+    tabuleiro[0][0] = 3;
+    tabuleiro[0][1] = 3;
+    tabuleiro[0][2] = 3;
 
     //Navio na vertical
-    tabuleiro[6][4] = 3;
-    tabuleiro[7][4] = 3;
-    tabuleiro[8][4] = 3;
+    tabuleiro[6][9] = 3;
+    tabuleiro[7][9] = 3;
+    tabuleiro[8][9] = 3;
+
+    //Navio 1 na diagonal
+    tabuleiro[9][8] = 3;
+    tabuleiro[8][7] = 3;
+    tabuleiro[7][6] = 3;
+
+    //Navio 2 na diagonal
+    tabuleiro[0][9] = 3;
+    tabuleiro[1][8] = 3;
+    tabuleiro[2][7] = 3;
 
     //inicializando o jogo e imprimindo o cabeçalho com as letras a,b,c,d....
     printf("### Jogo de Batalha Naval ###\n");
@@ -31,6 +112,13 @@ int main() {
         printf("%c ", linha[i]);
     }
     printf("\n");
+
+
+    //Aplicando Habilidades do nivel Mestre
+    aplicarCone(tabuleiro,8, 2);
+    aplicarCruz(tabuleiro, 3, 3);
+    aplicarOctaedro(tabuleiro, 5, 8);
+
 
     //imprime as linhas do tabuleiro com numeros
     for (int i = 0; i < 10; i++)
@@ -43,10 +131,14 @@ int main() {
         printf("\n");
     }
     
-    printf("Navio posicionado na horizontal coordenadas: 2b,2c,2d.\n");
-    printf("Navio posicionado na vertical coordenadas: 7e,8e,9e.\n");
+    return 0;
+}
 
- 
+    // Nível Novato - Posicionamento dos Navios
+    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
+    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
+    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+  
 
     // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
     // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
@@ -73,6 +165,3 @@ int main() {
     // 0 0 1 0 0
     // 1 1 1 1 1
     // 0 0 1 0 0
-
-    return 0;
-}
